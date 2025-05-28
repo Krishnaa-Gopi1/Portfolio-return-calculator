@@ -1,1 +1,4 @@
 venv/
+close_prices.csv
+open_prices.csv
+volume.csv
