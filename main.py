@@ -1,27 +1,51 @@
 import yfinance as yf
 import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt
 
 
-tickers = ['AAPL','TSLA','MSFT']
+ticker_input = input("Enter stock tickers seperated by commas : ")
+tickers = ticker_input.split(',')
+tickers = [ticker.strip() for ticker in tickers]
 
-import yfinance as yf
+while(True):
+    weights_input = input("Enter weights of tickers seperated by commas: ")
+    weights = list(map(float,weights_input.split(',')))
+    if abs(sum(weights) - 1.0) < 1e-6 and len(weights)==len(tickers):
+        break
+    print("Sum of weights is not 1. Try again.")
 
-tickers = ['AAPL', 'MSFT', 'TSLA']
+
+
 data = yf.download(tickers, start='2025-05-01', end='2025-05-27')
-
-# Save Close prices only
+# save Close prices 
 data['Close'].to_csv('close_prices.csv')
 
-# Save Open prices only
-data['Open'].to_csv('open_prices.csv')
-
-# Save Volume only
-data['Volume'].to_csv('volume.csv')
 
 
 
 close_df = pd.read_csv('close_prices.csv', index_col=0, parse_dates=True)
-open_df = pd.read_csv('open_prices.csv', index_col=0, parse_dates=True)
-volume_df = pd.read_csv('volume.csv', index_col=0, parse_dates=True)
 
-print(close_df)
+
+returns = close_df.pct_change().dropna()  #gives daily percentage returns
+
+
+
+
+portfolio_returns = returns.dot(weights)   #daily returns  of portfolio as time series
+
+annual_return = portfolio_returns.mean() * 252 #annual returns for 252 days of trade
+print("Annual Return in percentage : " , annual_return)
+
+annual_volatility = portfolio_returns.std() * np.sqrt(252) # .std() returns standard deviation of daily returns and multiplying it with sq root of time gives annual volatility
+print("Annual volatility : " , annual_volatility)
+
+risk_free_rate = 0
+sharpe_ratio = (annual_return - risk_free_rate) / annual_volatility
+print("Sharpe ratio considering risk free rate is 0 : " , sharpe_ratio)
+
+cumulative_returns = (1 + portfolio_returns).cumprod()
+cumulative_returns.plot(title="Portfolio returns over time")
+plt.xlabel('Date')
+plt.ylabel('Cumulative return')
+plt.show()
