@@ -41,9 +41,8 @@ python main.py
 
 - Downloads stock data using `yfinance`
 - Calculates daily returns:  
-  $$
-  \text{Return} = \frac{P_t - P_{t-1}}{P_{t-1}}
-  $$
+  ![Return formula](https://latex.codecogs.com/png.latex?\text{Return}=\frac{P_t-P_{t-1}}{P_{t-1}})
+
 
 - Calculates portfolio return:  
   Weighted sum of individual stock returns
