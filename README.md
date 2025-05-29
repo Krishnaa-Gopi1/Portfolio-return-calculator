@@ -52,6 +52,8 @@ python main.py
   - **Volatility** = std dev × √252  
   - **Sharpe Ratio** = return / volatility
 - Plots portfolio value over time
+  ![image](https://github.com/user-attachments/assets/ff695bc9-c592-44c9-bd91-479171a6a3ac)
+
 
 ---
 
