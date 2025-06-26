@@ -71,7 +71,7 @@ If you invest 50% in AAPL, 30% in MSFT, and 20% in TSLA, this script will show:
 ## 📌 Notes
 
 - Uses adjusted close prices
-- You can edit `tickers` and `weights` in `main.py`
+- You can edit `dates` in `main.py`
 - Works offline once data is downloaded
 
 ---
